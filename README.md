@@ -22,4 +22,4 @@ Developed by **Abudala Sualé**, a 4th-year Medical Student at **Universidade Ed
 This project is licensed under the MIT License.
 
 ---
-**Contact:** [Your Email or ORCID Link]
+**ORCID PROFILE:** https://orcid.org/0009-0003-3055-3028
