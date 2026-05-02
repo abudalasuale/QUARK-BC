@@ -1,16 +1,25 @@
 # QUARK-BC
 **Quick Utilization of Algorithmic Random-forest for Knowledge in Breast Cancer**
 
-## 🧬 Sobre o Projeto
-Este projeto consiste no desenvolvimento de um modelo de Machine Learning focado na predição de fenótipos de Cancro da Mama, com especial atenção aos casos de **Cancro da Mama Triplo-Negativo (TNBC)**.
+## 🧬 Project Overview
+This project focuses on developing a Machine Learning model to predict Breast Cancer phenotypes, with a specific emphasis on **Triple-Negative Breast Cancer (TNBC)**. It aims to bridge the gap between clinical oncology and data science.
 
-## 🛠️ Tecnologias Utilizadas
-* **Linguagem:** Python
-* **Bibliotecas:** Pandas, Scikit-Learn, Matplotlib
-* **Algoritmo:** Random Forest
+## 🛠️ Technical Stack
+* **Language:** Python
+* **Key Libraries:** Pandas, Scikit-Learn, Matplotlib
+* **Algorithm:** Random Forest Classifier
 
-## 🎓 Contexto Académico
-Desenvolvido por **Abudala Sualé**, estudante do 4º ano de Medicina na **Universidade Eduardo Mondlane (UEM)**. O objetivo é integrar a prática clínica com ferramentas de ciência de dados para auxiliar na medicina de precisão.
+## 🎓 Academic Context
+Developed by **Abudala Sualé**, a 4th-year Medical Student at **Universidade Eduardo Mondlane (UEM)**. This research is part of an ongoing effort to apply AI in precision medicine within the Mozambican healthcare context.
 
-## ⚖️ Licença
-Este projeto está licenciado sob a MIT License.
+## 🔬 Project Status
+* [x] Initial algorithm design
+* [ ] Data validation and cleaning
+* [ ] Final model evaluation
+* [ ] Manuscript drafting
+
+## ⚖️ License
+This project is licensed under the MIT License.
+
+---
+**Contact:** [Your Email or ORCID Link]
