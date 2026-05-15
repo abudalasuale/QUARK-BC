@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="QUARK-BC - Machine Learning model for Breast Cancer prediction">
+    <title>QUARK-BC - Predição de Câncer da Mama com IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --dark: #1a202c;
+            --light: #f7fafc;
+            --text: #2d3748;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--light);
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* Features Section */
+        .features {
+            max-width: 1200px;
+            margin: -3rem auto 4rem;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            z-index: 10;
+            position: relative;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: #718096;
+            line-height: 1.8;
+        }
+
+        /* About Section */
+        .about {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 4rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .about p {
+            color: #718096;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .tech-item {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            font-weight: 600;
+        }
+
+        /* Timeline/Status */
+        .status-section {
+            background: var(--light);
+            padding: 4rem 2rem;
+        }
+
+        .status-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .status-container h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+        }
+
+        .timeline {
+            display: grid;
+            gap: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .timeline-marker {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .timeline-marker.completed {
+            background: #48bb78;
+        }
+
+        .timeline-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .timeline-content p {
+            color: #718096;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #cbd5e0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #4a5568;
+            padding-top: 2rem;
+            text-align: center;
+            color: #a0aec0;
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .about {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">🧬 QUARK-BC</div>
+            <ul class="nav-links">
+                <li><a href="#features">Funcionalidades</a></li>
+                <li><a href="#about">Sobre</a></li>
+                <li><a href="#status">Status</a></li>
+                <li><a href="https://github.com/abudalasuale/QUARK-BC" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>QUARK-BC</h1>
+            <p>Quick Utilization of Algorithmic Random-forest for Knowledge in Breast Cancer</p>
+            <p style="font-size: 1.1rem; opacity: 0.9;">Predição inteligente de fenótipos de câncer da mama com foco em casos Triple-Negative (TNBC)</p>
+            <div class="cta-buttons">
+                <a href="https://github.com/abudalasuale/QUARK-BC" class="btn btn-primary">📖 Ver Código</a>
+                <a href="#about" class="btn btn-secondary">Saber Mais</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3>IA Avançada</h3>
+            <p>Utiliza Random Forest Classifier otimizado para classificação precisa de fenótipos de câncer da mama.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Análise Completa</h3>
+            <p>Validação rigorosa de dados e avaliação abrangente de desempenho do modelo.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔬</div>
+            <h3>Foco TNBC</h3>
+            <p>Especializado em Triple-Negative Breast Cancer, um dos tipos mais agressivos.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🏥</div>
+            <h3>Medicina de Precisão</h3>
+            <p>Aplicação prática de IA em oncologia para melhorar diagnósticos clinicamente relevantes.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📈</div>
+            <h3>Desempenho Testado</h3>
+            <p>Métricas de qualidade validadas com dados reais de pacientes.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔐</div>
+            <h3>Código Aberto</h3>
+            <p>Licença MIT - Totalmente transparente e reutilizável para pesquisa.</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div>
+            <h2>Sobre o QUARK-BC</h2>
+            <p>QUARK-BC é um projeto de Machine Learning desenvolvido como parte de uma iniciativa de pesquisa em medicina de precisão e inteligência artificial aplicada à oncologia.</p>
+            <p>O projeto combina metodologias avançadas de aprendizado de máquina com conhecimento clínico para criar um modelo capaz de prever fenótipos de câncer da mama, com especial atenção ao Triple-Negative Breast Cancer (TNBC).</p>
+            <p><strong>Desenvolvido por:</strong> Abudala Sualé, aluno do 4º ano de Medicina na Universidade Eduardo Mondlane (UEM), Moçambique.</p>
+            <p><strong>ORCID:</strong> <a href="https://orcid.org/0009-0003-3055-3028" target="_blank" style="color: var(--primary);">0009-0003-3055-3028</a></p>
+        </div>
+        <div>
+            <h2>Stack Tecnológico</h2>
+            <div class="tech-stack">
+                <div class="tech-item">🐍 Python 3.8+</div>
+                <div class="tech-item">📊 Pandas</div>
+                <div class="tech-item">🤖 Scikit-Learn</div>
+                <div class="tech-item">📈 Matplotlib</div>
+                <div class="tech-item">🧮 NumPy</div>
+                <div class="tech-item">⚖️ MIT License</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Status Section -->
+    <section id="status" class="status-section">
+        <div class="status-container">
+            <h2>Roadmap do Projeto</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker completed">✓</div>
+                    <div class="timeline-content">
+                        <h3>Design Inicial do Algoritmo</h3>
+                        <p>Arquitetura e conceituação do modelo Random Forest completed.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker">2</div>
+                    <div class="timeline-content">
+                        <h3>Validação e Limpeza de Dados</h3>
+                        <p>Processamento rigoroso de dados para garantir qualidade e consistência.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker">3</div>
+                    <div class="timeline-content">
+                        <h3>Avaliação Final do Modelo</h3>
+                        <p>Testes abrangentes com métricas de desempenho clinicamente relevantes.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker">4</div>
+                    <div class="timeline-content">
+                        <h3>Publicação de Manuscrito</h3>
+                        <p>Redação e submissão para publicação em periódicos científicos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>🧬 QUARK-BC</h4>
+                <p>Machine Learning model para predição de fenótipos de câncer da mama.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a href="https://github.com/abudalasuale/QUARK-BC" target="_blank">GitHub Repository</a></li>
+                    <li><a href="https://orcid.org/0009-0003-3055-3028" target="_blank">ORCID Profile</a></li>
+                    <li><a href="https://www.uem.mz" target="_blank">UEM</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Recursos</h4>
+                <ul>
+                    <li><a href="#features">Funcionalidades</a></li>
+                    <li><a href="#about">Sobre</a></li>
+                    <li><a href="#status">Status</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 QUARK-BC. Desenvolvido por Abudala Sualé. Licença MIT.</p>
+        </div>
+    </footer>
+</body>
+</html>
