@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/", "destination": "/simulador_tnbc_hcm_v14.html" }
+  ]
+}
